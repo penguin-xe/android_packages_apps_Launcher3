@@ -138,6 +138,7 @@ import com.android.launcher3.uioverrides.touchcontrollers.TaskViewTouchControlle
 import com.android.launcher3.uioverrides.touchcontrollers.TransposedQuickSwitchTouchController;
 import com.android.launcher3.uioverrides.touchcontrollers.TwoButtonNavbarTouchController;
 import com.android.launcher3.util.ActivityOptionsWrapper;
+import com.android.launcher3.util.BackPressHandler;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.Executors;
 import com.android.launcher3.util.IntSet;
@@ -282,6 +283,7 @@ public class QuickstepLauncher extends Launcher {
         mEnableWidgetDepth = SystemProperties.getBoolean("ro.launcher.depth.widget", true);
         getWorkspace().addOverlayCallback(progress ->
                 onTaskbarInAppDisplayProgressUpdate(progress, MINUS_ONE_PAGE_PROGRESS_INDEX));
+        addBackAnimationCallback(mSplitSelectStateController.getSplitBackHandler());
     }
 
     @Override
@@ -515,6 +517,7 @@ public class QuickstepLauncher extends Launcher {
         mHotseatPredictionController.destroy();
         mSplitWithKeyboardShortcutController.onDestroy();
         if (mViewCapture != null) mViewCapture.close();
+        removeBackAnimationCallback(mSplitSelectStateController.getSplitBackHandler());
     }
 
     @Override
@@ -700,6 +703,10 @@ public class QuickstepLauncher extends Launcher {
         anim.buildAnim().start();
     }
 
+    @Override
+    protected boolean isSplitSelectionEnabled() {
+        return mSplitSelectStateController.isSplitSelectActive();
+    }
 
     @Override
     protected void onResume() {
