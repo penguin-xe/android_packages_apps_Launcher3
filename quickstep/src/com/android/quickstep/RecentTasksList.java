@@ -20,6 +20,7 @@ import static android.content.Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 
 import static com.android.launcher3.util.Executors.UI_HELPER_EXECUTOR;
 import static com.android.quickstep.views.DesktopTaskView.DESKTOP_IS_PROTO2_ENABLED;
+import static com.android.quickstep.util.SplitScreenUtils.convertShellSplitBoundsToLauncher;
 import static com.android.wm.shell.util.GroupedRecentTaskInfo.TYPE_FREEFORM;
 
 import android.annotation.TargetApi;
@@ -41,7 +42,6 @@ import com.android.quickstep.util.GroupTask;
 import com.android.systemui.shared.recents.model.Task;
 import com.android.wm.shell.recents.IRecentTasksListener;
 import com.android.wm.shell.util.GroupedRecentTaskInfo;
-import com.android.wm.shell.util.SplitBounds;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -311,7 +311,7 @@ public class RecentTasksList {
                 numVisibleTasks++;
             }
             final SplitConfigurationOptions.SplitBounds launcherSplitBounds =
-                    convertSplitBounds(rawTask.getSplitBounds());
+                    convertShellSplitBoundsToLauncher(rawTask.getSplitBounds());
             allTasks.add(new GroupTask(task1, task2, launcherSplitBounds));
         }
 
@@ -329,15 +329,6 @@ public class RecentTasksList {
             tasks.add(task);
         }
         return new DesktopTask(tasks);
-    }
-
-    private SplitConfigurationOptions.SplitBounds convertSplitBounds(
-            SplitBounds shellSplitBounds) {
-        return shellSplitBounds == null ?
-                null :
-                new SplitConfigurationOptions.SplitBounds(
-                        shellSplitBounds.leftTopBounds, shellSplitBounds.rightBottomBounds,
-                        shellSplitBounds.leftTopTaskId, shellSplitBounds.rightBottomTaskId);
     }
 
     private ArrayList<GroupTask> copyOf(ArrayList<GroupTask> tasks) {
