@@ -107,6 +107,7 @@ import com.android.launcher3.anim.AnimatorPlaybackController;
 import com.android.launcher3.anim.PendingAnimation;
 import com.android.launcher3.appprediction.PredictionRowView;
 import com.android.launcher3.config.FeatureFlags;
+import com.android.launcher3.desktop.DesktopRecentsTransitionController;
 import com.android.launcher3.hybridhotseat.HotseatPredictionController;
 import com.android.launcher3.logging.InstanceId;
 import com.android.launcher3.logging.StatsLogManager;
@@ -229,6 +230,9 @@ public class QuickstepLauncher extends Launcher {
      */
     private PendingSplitSelectInfo mPendingSplitSelectInfo = null;
 
+    @Nullable
+    private DesktopRecentsTransitionController mDesktopRecentsTransitionController;
+
     private SafeCloseable mViewCapture;
 
     private boolean mEnableWidgetDepth;
@@ -240,11 +244,19 @@ public class QuickstepLauncher extends Launcher {
         mActionsView = findViewById(R.id.overview_actions_view);
         mMemInfoView = findViewById(R.id.meminfo);
         RecentsView overviewPanel = getOverviewPanel();
+        SystemUiProxy systemUiProxy = SystemUiProxy.INSTANCE.get(this);
         mSplitSelectStateController =
                 new SplitSelectStateController(this, mHandler, getStateManager(),
                         getDepthController(), getStatsLogManager(),
-                        SystemUiProxy.INSTANCE.get(this), RecentsModel.INSTANCE.get(this));
-        overviewPanel.init(mActionsView, mSplitSelectStateController, mMemInfoView);
+                        systemUiProxy, RecentsModel.INSTANCE.get(this),
+                        () -> onStateBack());
+        if (DesktopTaskView.DESKTOP_MODE_SUPPORTED) {
+            mDesktopRecentsTransitionController = new DesktopRecentsTransitionController(
+                    getStateManager(), systemUiProxy, getIApplicationThread(),
+                    getDepthController());
+        }
+        overviewPanel.init(mActionsView, mSplitSelectStateController, mMemInfoView,
+                mDesktopRecentsTransitionController);
         mSplitWithKeyboardShortcutController = new SplitWithKeyboardShortcutController(this,
                 mSplitSelectStateController);
         mSplitToWorkspaceController = new SplitToWorkspaceController(this,

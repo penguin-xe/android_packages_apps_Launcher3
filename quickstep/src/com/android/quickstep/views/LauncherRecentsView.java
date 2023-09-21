@@ -38,6 +38,7 @@ import androidx.annotation.Nullable;
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.config.FeatureFlags;
+import com.android.launcher3.desktop.DesktopRecentsTransitionController;
 import com.android.launcher3.logging.StatsLogManager;
 import com.android.launcher3.statehandlers.DepthController;
 import com.android.launcher3.statehandlers.DesktopVisibilityController;
@@ -78,8 +79,9 @@ public class LauncherRecentsView extends RecentsView<QuickstepLauncher, Launcher
     @Override
     public void init(OverviewActionsView actionsView,
             SplitSelectStateController splitPlaceholderView,
-            MemInfoView memInfoView) {
-        super.init(actionsView, splitPlaceholderView, memInfoView);
+            MemInfoView memInfoView,
+            @Nullable DesktopRecentsTransitionController desktopRecentsTransitionController) {
+        super.init(actionsView, splitPlaceholderView, memInfoView, desktopRecentsTransitionController);
         setContentAlpha(0);
     }
 
@@ -272,7 +274,8 @@ public class LauncherRecentsView extends RecentsView<QuickstepLauncher, Launcher
             desktopVisibilityController.setRecentsGestureEnd(endTarget);
         }
         if (showDesktopApps) {
-            SystemUiProxy.INSTANCE.get(mActivity).showDesktopApps(mActivity.getDisplayId());
+            SystemUiProxy.INSTANCE.get(mActivity).showDesktopApps(mActivity.getDisplayId(),
+                    null /* transition */);
         }
     }
 }
