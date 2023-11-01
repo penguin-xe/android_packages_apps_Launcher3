@@ -97,6 +97,7 @@ import java.util.List;
  * See {@link com.android.quickstep.views.RecentsView}.
  */
 public final class RecentsActivity extends StatefulActivity<RecentsState> {
+    private static final String TAG = "RecentsActivity";
 
     public static final ActivityTracker<RecentsActivity> ACTIVITY_TRACKER =
             new ActivityTracker<>();
@@ -429,7 +430,7 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> {
                 new RemoteAnimationAdapter(runner, HOME_APPEAR_DURATION, 0),
                 new RemoteTransition(runner.toRemoteTransition(), getIApplicationThread(),
                         "StartHomeFromRecents"));
-        startHomeIntentSafely(this, options.toBundle());
+        startHomeIntentSafely(this, options.toBundle(), TAG);
     }
 
     private final RemoteAnimationFactory mAnimationToHomeFactory =
