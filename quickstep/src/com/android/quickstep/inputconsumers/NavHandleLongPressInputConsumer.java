@@ -112,7 +112,7 @@ public class NavHandleLongPressInputConsumer extends DelegateInputConsumer {
         if (longPressRunnable != null) {
             OtherActivityInputConsumer oaic = getInputConsumerOfClass(
                     OtherActivityInputConsumer.class);
-            if (oaic != null) {
+            if (oaic != null && oaic.hasStartedTouchTracking()) {
                 oaic.setForceFinishRecentsTransitionCallback(longPressRunnable);
                 setActive(mCurrentDownEvent);
             } else {
