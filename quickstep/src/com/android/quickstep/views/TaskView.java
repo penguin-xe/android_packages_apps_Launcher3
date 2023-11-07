@@ -33,6 +33,7 @@ import static com.android.launcher3.util.SplitConfigurationOptions.STAGE_POSITIO
 import static com.android.launcher3.util.SplitConfigurationOptions.STAGE_POSITION_UNDEFINED;
 import static com.android.launcher3.util.SplitConfigurationOptions.getLogEventForPosition;
 import static com.android.quickstep.TaskOverlayFactory.getEnabledShortcuts;
+import static com.android.quickstep.util.ActiveGestureErrorDetector.GestureEvent.EXPECTING_TASK_APPEARED;
 import static com.android.quickstep.util.BorderAnimator.DEFAULT_BORDER_COLOR;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
@@ -101,6 +102,7 @@ import com.android.quickstep.TaskIconCache;
 import com.android.quickstep.TaskThumbnailCache;
 import com.android.quickstep.TaskUtils;
 import com.android.quickstep.TaskViewUtils;
+import com.android.quickstep.util.ActiveGestureLog;
 import com.android.quickstep.util.BorderAnimator;
 import com.android.quickstep.util.CancellableTask;
 import com.android.quickstep.util.RecentsOrientedState;
@@ -844,6 +846,7 @@ public class TaskView extends FrameLayout implements Reusable {
                     getDisplay() == null ? DEFAULT_DISPLAY : getDisplay().getDisplayId());
             if (ActivityManagerWrapper.getInstance()
                     .startActivityFromRecents(mTask.key, opts.options)) {
+                ActiveGestureLog.INSTANCE.trackEvent(EXPECTING_TASK_APPEARED);
                 RecentsView recentsView = getRecentsView();
                 if (recentsView.getRunningTaskViewId() != -1) {
                     recentsView.onTaskLaunchedInLiveTileMode();

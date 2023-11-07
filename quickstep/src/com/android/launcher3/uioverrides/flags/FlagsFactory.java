@@ -166,15 +166,15 @@ public class FlagsFactory {
         synchronized (sDebugFlags) {
             for (DebugFlag flag : sDebugFlags) {
                 if (flag instanceof DeviceFlag) {
-                    pw.println("  " + flag);
+                    pw.println((flag.currentValueModified() ? "  ->" : "    ") + flag);
                 }
             }
         }
-        pw.println("DebugFlags:");
+        pw.println("  DebugFlags:");
         synchronized (sDebugFlags) {
             for (DebugFlag flag : sDebugFlags) {
                 if (!(flag instanceof DeviceFlag)) {
-                    pw.println("  " + flag);
+                    pw.println((flag.currentValueModified() ? "  ->" : "    ") + flag);
                 }
             }
         }
