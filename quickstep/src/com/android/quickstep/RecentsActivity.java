@@ -419,10 +419,7 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> {
     }
 
     public void startHome() {
-        Log.d(TestProtocol.INCORRECT_HOME_STATE, "start home from recents activity");
-        RecentsView recentsView = getOverviewPanel();
-        recentsView.switchToScreenshot(() -> recentsView.finishRecentsAnimation(true,
-                this::startHomeInternal));
+        startHomeInternal();
     }
 
     private void startHomeInternal() {
