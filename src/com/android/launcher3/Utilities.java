@@ -28,6 +28,7 @@ import android.app.ActivityOptions;
 import android.app.Person;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
@@ -862,6 +863,11 @@ public final class Utilities {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    public static boolean isLongPressToSearchEnabled(Context context) {
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.System.NAVBAR_LONG_PRESS_GESTURE, 1) == 1;
     }
 
     public static void restart(final Context context) {
