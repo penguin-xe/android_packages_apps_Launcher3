@@ -93,7 +93,7 @@
         fastscroll_end_margin = - (fastscroll_width - fastscroll_track_min_width) / 2
     -->
     <dimen name="fastscroll_width">58dp</dimen>
-    <dimen name="fastscroll_end_margin">-26dp</dimen>
+    <dimen name="fastscroll_end_margin">-34dp</dimen>
     <!-- Extra margin between bottom of the scrollbar and the search bar protection layer. -->
     <dimen name="fastscroll_bottom_margin_floating_search">4dp</dimen>
 
@@ -105,6 +105,8 @@
     <dimen name="min_page_snap_velocity">1500dp</dimen>
 
     <!-- All Apps -->
+    <dimen name="all_apps_content_padding">10dp</dimen>
+    <dimen name="all_apps_content_margin">10dp</dimen>
     <dimen name="all_apps_starting_vertical_translate">300dp</dimen>
     <dimen name="all_apps_search_bar_field_height">52dp</dimen>
     <!-- all_apps_search_bar_field_height / 2 -->

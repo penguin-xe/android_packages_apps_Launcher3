@@ -21,6 +21,7 @@ import android.view.WindowInsets;
 
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherState;
+import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.statemanager.StateManager;
 
@@ -34,7 +35,20 @@ public class LauncherAllAppsContainerView extends ActivityAllAppsContainerView<L
     }
 
     public LauncherAllAppsContainerView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+    
+        int padding = getResources().getDimensionPixelSize(R.dimen.all_apps_content_padding);
+        int margin = getResources().getDimensionPixelSize(R.dimen.all_apps_content_margin);
+    
+        setPaddingRelative(padding, 0, padding, 0);
+    
+        post(() -> {
+            if (getLayoutParams() instanceof MarginLayoutParams) {
+                MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
+                params.setMargins(margin, 0, margin, 0);
+                setLayoutParams(params);
+            }
+        });
     }
 
     public LauncherAllAppsContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
