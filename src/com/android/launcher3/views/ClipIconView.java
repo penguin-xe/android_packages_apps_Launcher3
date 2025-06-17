@@ -47,7 +47,6 @@ import androidx.annotation.Nullable;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
-import com.android.launcher3.util.Themes;
 import com.android.launcher3.dragndrop.FolderAdaptiveIcon;
 import com.android.launcher3.graphics.IconShape;
 
@@ -60,8 +59,6 @@ import com.android.launcher3.graphics.IconShape;
 public class ClipIconView extends View implements ClipPathView {
 
     private static final Rect sTmpRect = new Rect();
-    private static final Rect mRect = new Rect();
-    private static final Rect sTmpRectFG = new Rect();
 
     private final int mBlurSizeOutline;
     private final boolean mIsRtl;
@@ -77,7 +74,7 @@ public class ClipIconView extends View implements ClipPathView {
     private final Rect mEndRevealRect = new Rect();
     private Path mClipPath;
     private float mTaskCornerRadius;
-    private Context mContext;
+
     private final Rect mOutline = new Rect();
     private final Rect mFinalDrawableBounds = new Rect();
 
@@ -91,7 +88,6 @@ public class ClipIconView extends View implements ClipPathView {
 
     public ClipIconView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-	mContext = context;
         mBlurSizeOutline = getResources().getDimensionPixelSize(
                 R.dimen.blur_size_medium_outline);
         mIsRtl = Utilities.isRtl(getResources());
@@ -175,11 +171,9 @@ public class ClipIconView extends View implements ClipPathView {
                     : (int) (((height * drawableScale) - height) / 2);
             int diffX = dp.isLandscape ? (int) (((width * drawableScale) - width) / 2)
                     : 0;
-            sTmpRectFG.set(mRect);
-	    sTmpRect.set(mFinalDrawableBounds);
+            sTmpRect.set(mFinalDrawableBounds);
             sTmpRect.offset(diffX, diffY);
-	    sTmpRectFG.offset(diffX, diffY);
-            mForeground.setBounds(sTmpRectFG);
+            mForeground.setBounds(sTmpRect);
         }
         invalidate();
         invalidateOutline();
@@ -233,11 +227,7 @@ public class ClipIconView extends View implements ClipPathView {
             if (!isFolderIcon) {
                 mFinalDrawableBounds.inset(iconOffset - blurMargin, iconOffset - blurMargin);
             }
-           mRect.set(mFinalDrawableBounds);
- 	   if(Themes.isThemedIconEnabled(mContext))
-	       mRect.inset(mFinalDrawableBounds.width()/4, mFinalDrawableBounds.height()/4);
-
-            mForeground.setBounds(mRect);
+            mForeground.setBounds(mFinalDrawableBounds);
             mBackground.setBounds(mFinalDrawableBounds);
 
             mStartRevealRect.set(0, 0, originalWidth, originalHeight);
